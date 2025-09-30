@@ -1,0 +1,44 @@
+version: "3.9"
+services:
+  nestjs:
+    build: .
+    container_name: nestjs_app
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: >
+      sh -c "
+        npx prisma generate &&
+        npx prisma migrate deploy &&
+        npm run start:dev
+      "
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "3000:3000"
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_nestjs
+    restart: unless-stopped
+    env_file:
+      - .env.docker
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d nestjs_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+volumes:
+  pgdata:
