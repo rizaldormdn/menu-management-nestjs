@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { Menu } from "../entities/menu.entity";
 import { MenuRepositoryInterface } from "./menu.repository.interface";
-import { PrismaService } from "src/common/database/prisma/prisma.service";
+import { PrismaService } from "@/common/database/prisma/prisma.service";
 
 @Injectable()
 export class MenuRepository implements MenuRepositoryInterface {
