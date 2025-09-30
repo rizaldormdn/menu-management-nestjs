@@ -11,12 +11,12 @@ async function bootstrap() {
   });
   app.useGlobalPipes(new ValidationPipe());
 
-  const port = process.env.PORT || 7000;
-  if (process.env.NODE_ENV === "production") {
-    await app.listen(port, "0.0.0.0");
-  } else {
-    await app.listen(port);
-  }
-  await app.listen(process.env.PORT ?? 7000);
+  // const port = process.env.PORT || 7000;
+  // if (process.env.NODE_ENV === "production") {
+  //   await app.listen(port, "0.0.0.0");
+  // } else {
+  //   await app.listen(port);
+  // }
+  await app.listen(process.env.PORT ?? 8000);
 }
 export default bootstrap();
